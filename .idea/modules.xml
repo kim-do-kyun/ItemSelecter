@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ItemSelecter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ItemSelecter.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.desp.ItemSelecter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.desp.ItemSelecter.main.iml" />
     </modules>
   </component>
 </project>

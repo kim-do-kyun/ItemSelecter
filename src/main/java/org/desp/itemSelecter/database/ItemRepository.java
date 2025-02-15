@@ -2,7 +2,6 @@ package org.desp.itemSelecter.database;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
 import java.util.HashMap;
 import java.util.Map;
 import org.bson.Document;
