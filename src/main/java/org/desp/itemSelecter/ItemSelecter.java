@@ -20,6 +20,5 @@ public final class ItemSelecter extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
     }
 }

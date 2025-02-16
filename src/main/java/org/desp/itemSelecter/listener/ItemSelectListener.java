@@ -159,7 +159,6 @@ public class  ItemSelectListener implements Listener {
         } else if (itemName.equals("§f다시 §c선택§f하겠습니다.")) {
             player.sendMessage("§c 선택이 취소되었습니다.");
         }
-
         player.closeInventory();
     }
 }
