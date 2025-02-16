@@ -5,7 +5,6 @@ import com.mongodb.client.MongoCollection;
 import java.util.HashMap;
 import java.util.Map;
 import org.bson.Document;
-import org.desp.itemSelecter.dto.ItemListDto;
 import org.desp.itemSelecter.dto.ItemSelectLogDto;
 
 public class ItemSelectLogRepository {

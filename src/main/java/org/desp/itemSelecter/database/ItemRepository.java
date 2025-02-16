@@ -34,8 +34,6 @@ public class ItemRepository {
 
             Map<String, Integer> rewardsMap = new HashMap<>();
             for (String key : rewards.keySet()) {
-                System.out.println("key = " + key);
-                System.out.println("rewards.getInteger(key) = " + rewards.getInteger(key));
                 rewardsMap.put(key, rewards.getInteger(key));
             }
 

@@ -2,4 +2,4 @@ name: ItemSelecter
 version: '1.0-SNAPSHOT'
 main: org.desp.itemSelecter.ItemSelecter
 api-version: '1.20'
-depend: [MMOItems, MongoLibraryPlugin, MythicLib]
+depend: [MMOItems, MongoLibraryPlugin, MythicLib, MMOMail, BinggreAPI]
