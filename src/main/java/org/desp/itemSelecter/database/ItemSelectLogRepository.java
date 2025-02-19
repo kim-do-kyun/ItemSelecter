@@ -32,11 +32,11 @@ public class ItemSelectLogRepository {
             String user_id = document.getString("user_id");
 
             ItemSelectLogDto itemSelectLog = ItemSelectLogDto.builder()
-                            .user_id(user_id)
-                                    .uuid(document.getString("uuid"))
-                                            .selectedItem(document.getString("selectedItem"))
-                                                    .quantity(document.getInteger("quantity"))
-                                                            .build();
+                    .user_id(user_id)
+                    .uuid(document.getString("uuid"))
+                    .selectedItem(document.getString("selectedItem"))
+                    .quantity(document.getInteger("quantity"))
+                    .build();
             itemSelectLogMap.put(itemSelectLog.getUuid(), itemSelectLog);
         }
     }

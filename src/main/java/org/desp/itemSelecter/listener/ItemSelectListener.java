@@ -10,20 +10,19 @@ import java.util.List;
 import java.util.Map;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.desp.itemSelecter.database.ItemRepository;
 import org.desp.itemSelecter.database.ItemSelectLogRepository;
 import org.desp.itemSelecter.dto.ItemListDto;
 import org.desp.itemSelecter.dto.ItemSelectLogDto;
+import org.desp.itemSelecter.gui.ItemConfirmGUI;
+import org.desp.itemSelecter.gui.ItemRewardGUI;
 
 public class  ItemSelectListener implements Listener {
 
@@ -46,59 +45,27 @@ public class  ItemSelectListener implements Listener {
         String playerRightHandItemId = MMOItems.getID(itemInMainHand);
 
         if (event.getAction().isRightClick() && itemListMap.containsKey(playerRightHandItemId)) {
-            ItemListDto itemListDto = itemListMap.get(playerRightHandItemId);
-            Inventory inventory = Bukkit.createInventory(player, 27, "아이템 보상 선택");
-
-            for (Map.Entry<String, Integer> entry : itemListDto.getRewardItems().entrySet()) {
-                ItemStack rewardItem;
-                if (MMOItems.plugin.getItem(Type.SWORD, entry.getKey()) == null) {
-                    rewardItem = MMOItems.plugin.getItem(Type.MISCELLANEOUS, entry.getKey());
-                } else {
-                    rewardItem = MMOItems.plugin.getItem(Type.SWORD, entry.getKey());
-                }
-                rewardItem.setAmount(entry.getValue());
-
-                inventory.addItem(rewardItem);
-            }
-            player.openInventory(inventory);
+            player.openInventory(new ItemRewardGUI(playerRightHandItemId).getInventory());
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().equals("아이템 보상 선택")) return;
+        if (!(event.getInventory().getHolder() instanceof ItemRewardGUI)) return;
         event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
         ItemStack clickedItem = event.getCurrentItem();
 
         itemSelectCache.put(player.getUniqueId().toString(), clickedItem);
-
         if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
-        Inventory confirmInventory = Bukkit.createInventory(player, 9, "선택 확정 창");
-
-        ItemStack yesItem = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
-
-        ItemMeta itemMeta = yesItem.getItemMeta();
-        itemMeta.setDisplayName("§f이 아이템으로 §a선택§f하겠습니다.");
-        yesItem.setItemMeta(itemMeta);
-
-        ItemStack noItem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-
-        ItemMeta itemMeta1 = noItem.getItemMeta();
-        itemMeta1.setDisplayName("§f다시 §c선택§f하겠습니다.");
-        noItem.setItemMeta(itemMeta1);
-
-        confirmInventory.setItem(3, yesItem);
-        confirmInventory.setItem(5, noItem);
-
-        player.openInventory(confirmInventory);
+        player.openInventory(new ItemConfirmGUI().getInventory());
     }
 
     @EventHandler
     public void onConfirmClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().equals("선택 확정 창")) return;
+        if (!(event.getInventory().getHolder() instanceof ItemConfirmGUI)) return;
         event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
