@@ -54,6 +54,9 @@ public class  ItemSelectListener implements Listener {
         if (!(event.getInventory().getHolder() instanceof ItemRewardGUI)) return;
         event.setCancelled(true);
 
+        if (event.getClickedInventory() == event.getWhoClicked().getInventory()) return;
+
+
         Player player = (Player) event.getWhoClicked();
         ItemStack clickedItem = event.getCurrentItem();
 
@@ -68,12 +71,12 @@ public class  ItemSelectListener implements Listener {
         if (!(event.getInventory().getHolder() instanceof ItemConfirmGUI)) return;
         event.setCancelled(true);
 
+        if (event.getClickedInventory() == event.getWhoClicked().getInventory()) return;
+
         Player player = (Player) event.getWhoClicked();
         ItemStack clickedItem = event.getCurrentItem();
 
         if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
-
-        String itemName = clickedItem.getItemMeta().getDisplayName();
 
         Map<String, ItemListDto> itemListMap = itemRepository.getItemListMap();
 
@@ -87,7 +90,9 @@ public class  ItemSelectListener implements Listener {
 
         Integer itemQuantity = itemListDto.getRewardItems().get(selectedItemID);
 
-        if (itemName.equals("§f이 아이템으로 §a선택§f하겠습니다.")) {
+        int slot = event.getSlot();
+
+        if (slot == 3) {
             List<ItemStack> reward = new ArrayList<>();
             ItemStack rewardItem;
             if (MMOItems.plugin.getItem(Type.SWORD, selectedItemID) == null) {
@@ -123,7 +128,7 @@ public class  ItemSelectListener implements Listener {
             itemSelectLogRepository.insertSelectLog(newLog, getCurrentTime());
 
             player.closeInventory();
-        } else if (itemName.equals("§f다시 §c선택§f하겠습니다.")) {
+        } else if (slot == 5) {
             player.sendMessage("§c 선택이 취소되었습니다.");
         }
         player.closeInventory();
