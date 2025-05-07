@@ -3,6 +3,7 @@ package org.desp.itemSelecter.gui;
 import java.util.Map;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
+import net.Indyuce.mmoitems.manager.TypeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -25,11 +26,17 @@ public class ItemRewardGUI implements InventoryHolder {
         Inventory inventory = Bukkit.createInventory(this, 27, "아이템 보상 선택");
 
         for (Map.Entry<String, Integer> entry : itemListDto.getRewardItems().entrySet()) {
-            ItemStack rewardItem;
-            if (MMOItems.plugin.getItem(Type.SWORD, entry.getKey()) == null) {
-                rewardItem = MMOItems.plugin.getItem(Type.MISCELLANEOUS, entry.getKey());
-            } else {
-                rewardItem = MMOItems.plugin.getItem(Type.SWORD, entry.getKey());
+            ItemStack rewardItem = null;
+
+            TypeManager types = MMOItems.plugin.getTypes();
+            for (Type type : types.getAll()) {
+                if(MMOItems.plugin.getItem(type, entry.getKey())==null){
+                    continue;
+                }
+                rewardItem = MMOItems.plugin.getItem(type, entry.getKey());
+            }
+            if (rewardItem == null) {
+                continue;
             }
             rewardItem.setAmount(entry.getValue());
 

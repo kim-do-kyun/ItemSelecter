@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
+import net.Indyuce.mmoitems.manager.TypeManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -94,13 +95,19 @@ public class  ItemSelectListener implements Listener {
 
         if (slot == 3) {
             List<ItemStack> reward = new ArrayList<>();
-            ItemStack rewardItem;
-            if (MMOItems.plugin.getItem(Type.SWORD, selectedItemID) == null) {
-                rewardItem = MMOItems.plugin.getItem(Type.MISCELLANEOUS, selectedItemID);
+            ItemStack rewardItem = null;
 
-            } else {
-                rewardItem = MMOItems.plugin.getItem(Type.SWORD, selectedItemID);
+            TypeManager types = MMOItems.plugin.getTypes();
+            for (Type type : types.getAll()) {
+                if(MMOItems.plugin.getItem(type, selectedItemID)==null){
+                    continue;
+                }
+                rewardItem = MMOItems.plugin.getItem(type, selectedItemID);
             }
+            if (rewardItem == null) {
+                return;
+            }
+
             rewardItem.setAmount(itemQuantity);
             reward.add(rewardItem);
 
